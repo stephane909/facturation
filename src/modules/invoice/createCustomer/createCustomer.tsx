@@ -23,6 +23,9 @@ const CreateCustomer = () => {
   // #FACTURATION-US-1-AC-3 - test siret : On renvoie true si la longueur du champs n'est pas de 14 et a été édité
   const invalidSiret = editedInput.siret && enteredDatas.siret.length !== 14;
 
+  // #FACTURATION-US-1-AC-4 : création client échouée : pas d'adresse
+  const invalidAddress = editedInput.address && enteredDatas.address === "";
+
   // mets à jour le state enteredDatas en fonction du name de
   // l'input qui déclenche la fonction via son onChange
   const handleInputChange = (valueName: string, value: any) => {
@@ -89,11 +92,13 @@ const CreateCustomer = () => {
           <input
             name="address"
             type="text"
+            onBlur={() => handleInputBlur("address")}
             onChange={(event) =>
               handleInputChange("address", event.target.value)
             }
             value={enteredDatas.address}
           />
+          {invalidAddress && <span>Veuillez saisir une adresse</span>}
         </div>
         <div>
           <label htmlFor="email">eMail</label>
