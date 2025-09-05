@@ -17,24 +17,21 @@ const CreateCustomer = () => {
     email: false,
   });
 
+  //State du bouton submit
   const [disabledSubmit, setDisableSubmit] = useState<boolean>(true);
 
   // #FACTURATION-US-1-AC-2 - test name : On renvoie true si le champ est vides et on été édités
-  const invalidName = editedInput.name && enteredDatas.name === "";
+  const invalidName = enteredDatas.name === "";
 
   // #FACTURATION-US-1-AC-3 - test siret : On renvoie true si la longueur du champs n'est pas de 14 et a été édité
-  const invalidSiret = editedInput.siret && enteredDatas.siret.length !== 14;
+  const invalidSiret = enteredDatas.siret.length !== 14;
 
   // #FACTURATION-US-1-AC-4 - test address : On renvoie true si le champ est vides et on été édités
-  const invalidAddress = editedInput.address && enteredDatas.address === "";
+  const invalidAddress = enteredDatas.address === "";
 
   // #FACTURATION-US-1-AC-5 - test email: On renvoie true si le mail ne possède ni d'@, ni de point et a été édité
   const invalidEmail =
-    editedInput.email &&
-    enteredDatas.address.includes("@") &&
-    enteredDatas.address.includes(".");
-
-  // Le bouton submit est enable si
+    enteredDatas.address.includes("@") && enteredDatas.address.includes(".");
 
   // mets à jour le state enteredDatas en fonction du name de
   // l'input qui déclenche la fonction via son onChange
@@ -99,7 +96,9 @@ const CreateCustomer = () => {
             onChange={(event) => handleInputChange("name", event.target.value)}
             value={enteredDatas.name}
           />
-          {invalidName && <span>Veuillez saisir une valeur</span>}
+          {invalidName && editedInput.name && (
+            <span>Veuillez saisir une valeur</span>
+          )}
         </div>
         <div>
           <label htmlFor="siret">N° de Siret</label>
@@ -111,7 +110,7 @@ const CreateCustomer = () => {
             onChange={(event) => handleInputChange("siret", event.target.value)}
             value={enteredDatas.siret}
           />
-          {invalidSiret && (
+          {invalidSiret && editedInput.siret && (
             <span>Veuillez saisir un siret valide ( 14 chiffres )</span>
           )}
         </div>
@@ -127,7 +126,9 @@ const CreateCustomer = () => {
             }
             value={enteredDatas.address}
           />
-          {invalidAddress && <span>Veuillez saisir une adresse</span>}
+          {invalidAddress && editedInput.address && (
+            <span>Veuillez saisir une adresse</span>
+          )}
         </div>
         <div>
           <label htmlFor="email">eMail</label>
@@ -139,7 +140,9 @@ const CreateCustomer = () => {
             onChange={(event) => handleInputChange("email", event.target.value)}
             value={enteredDatas.email}
           />
-          {invalidEmail && <span>Veuillez saisir un email valide</span>}
+          {invalidEmail && editedInput.email && (
+            <span>Veuillez saisir un email valide</span>
+          )}
         </div>
         <div>
           <br />
