@@ -9,6 +9,17 @@ const CreateCustomer = () => {
     email: "",
   });
 
+  // State d'édition des champs pour le check des values
+  const [editedInput, setEditedInput] = useState({
+    name: false,
+    siret: false,
+    address: false,
+    email: false,
+  });
+
+  // test name & address: On renvoie true si les champs sont vides et on été édités
+  const invalidName = editedInput.name && enteredDatas.name === "";
+
   // mets à jour le state enteredDatas en fonction du name de
   // l'input qui déclenche la fonction via son onChange
   const handleInputChange = (valueName: string, value: any) => {
@@ -30,6 +41,15 @@ const CreateCustomer = () => {
       });*/
   };
 
+  // mets à jour le state editedInput en fonction du name de
+  // l'input qui déclenche la fonction via son onBlur
+  const handleInputBlur = (valueName: string) => {
+    setEditedInput((prevEdits) => ({
+      ...prevEdits,
+      [valueName]: true,
+    }));
+  };
+
   return (
     <>
       <p>Nouveau Client</p>
@@ -40,9 +60,11 @@ const CreateCustomer = () => {
           <input
             name="name"
             type="text"
+            onBlur={() => handleInputBlur("name")}
             onChange={(event) => handleInputChange("name", event.target.value)}
             value={enteredDatas.name}
           />
+          {invalidName && <span>Veuillez saisir une valeur</span>}
         </div>
         <div>
           <label htmlFor="siret">N° de Siret</label>
