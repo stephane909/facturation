@@ -17,6 +17,8 @@ const CreateCustomer = () => {
     email: false,
   });
 
+  const [disabledSubmit, setDisableSubmit] = useState<boolean>(true);
+
   // #FACTURATION-US-1-AC-2 - test name : On renvoie true si le champ est vides et on été édités
   const invalidName = editedInput.name && enteredDatas.name === "";
 
@@ -32,6 +34,8 @@ const CreateCustomer = () => {
     enteredDatas.address.includes("@") &&
     enteredDatas.address.includes(".");
 
+  // Le bouton submit est enable si
+
   // mets à jour le state enteredDatas en fonction du name de
   // l'input qui déclenche la fonction via son onChange
   const handleInputChange = (valueName: string, value: any) => {
@@ -41,6 +45,7 @@ const CreateCustomer = () => {
     }));
   };
 
+  // #FACTURATION-US-1-AC-1 : création client validée
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
@@ -60,6 +65,24 @@ const CreateCustomer = () => {
       ...prevEdits,
       [valueName]: true,
     }));
+
+    // si tous les champs sont ok et que l'un d'entre eux a été édité, "submit" est enable
+    if (
+      !invalidName &&
+      !invalidAddress &&
+      !invalidSiret &&
+      !invalidEmail &&
+      (editedInput.name === true ||
+        editedInput.siret === true ||
+        editedInput.address === true ||
+        editedInput.email === true)
+    ) {
+      setDisableSubmit(false);
+      console.log("false");
+    } else {
+      setDisableSubmit(true);
+      console.log("true");
+    }
   };
 
   return (
@@ -120,7 +143,11 @@ const CreateCustomer = () => {
         </div>
         <div>
           <br />
-          <input type="submit" value="save" />
+          <input
+            type="submit"
+            value="save"
+            disabled={disabledSubmit ? true : false}
+          />
         </div>
       </form>
     </>
