@@ -17,8 +17,11 @@ const CreateCustomer = () => {
     email: false,
   });
 
-  // test name & address: On renvoie true si les champs sont vides et on été édités
+  // #FACTURATION-US-1-AC-2 - test name : On renvoie true si les champs sont vides et on été édités
   const invalidName = editedInput.name && enteredDatas.name === "";
+
+  // #FACTURATION-US-1-AC-3 - test siret : On renvoie true si la longueur du champs n'est pas de 14 et a été édité
+  const invalidSiret = editedInput.siret && enteredDatas.siret.length !== 14;
 
   // mets à jour le state enteredDatas en fonction du name de
   // l'input qui déclenche la fonction via son onChange
@@ -72,9 +75,13 @@ const CreateCustomer = () => {
           <input
             name="siret"
             type="number"
+            onBlur={() => handleInputBlur("siret")}
             onChange={(event) => handleInputChange("siret", event.target.value)}
             value={enteredDatas.siret}
           />
+          {invalidSiret && (
+            <span>Veuillez saisir un siret valide ( 14 chiffres )</span>
+          )}
         </div>
         <div>
           <label htmlFor="address">Adresse, CP, Ville</label>
