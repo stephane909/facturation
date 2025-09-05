@@ -17,14 +17,20 @@ const CreateCustomer = () => {
     email: false,
   });
 
-  // #FACTURATION-US-1-AC-2 - test name : On renvoie true si les champs sont vides et on été édités
+  // #FACTURATION-US-1-AC-2 - test name : On renvoie true si le champ est vides et on été édités
   const invalidName = editedInput.name && enteredDatas.name === "";
 
   // #FACTURATION-US-1-AC-3 - test siret : On renvoie true si la longueur du champs n'est pas de 14 et a été édité
   const invalidSiret = editedInput.siret && enteredDatas.siret.length !== 14;
 
-  // #FACTURATION-US-1-AC-4 : création client échouée : pas d'adresse
+  // #FACTURATION-US-1-AC-4 - test address : On renvoie true si le champ est vides et on été édités
   const invalidAddress = editedInput.address && enteredDatas.address === "";
+
+  // #FACTURATION-US-1-AC-5 - test email: On renvoie true si le mail ne possède ni d'@, ni de point et a été édité
+  const invalidEmail =
+    editedInput.email &&
+    enteredDatas.address.includes("@") &&
+    enteredDatas.address.includes(".");
 
   // mets à jour le state enteredDatas en fonction du name de
   // l'input qui déclenche la fonction via son onChange
@@ -106,9 +112,11 @@ const CreateCustomer = () => {
           <input
             name="email"
             type="email"
+            onBlur={() => handleInputBlur("email")}
             onChange={(event) => handleInputChange("email", event.target.value)}
             value={enteredDatas.email}
           />
+          {invalidEmail && <span>Veuillez saisir un email valide</span>}
         </div>
         <div>
           <br />
